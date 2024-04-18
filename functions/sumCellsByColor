@@ -1,0 +1,27 @@
+// @author Konstantin Dinev
+/**
+ * Sums the values of cells in a range that have the same background color as a reference cell.
+ *
+ * @param {string} dataRange A string representing the range of cells to sum (e.g., "A1:B10").
+ * @param {string} colorCell A string representing the cell with the reference color (e.g., "C1").
+ * @return {number} The sum of the cells in dataRange that have the same background color as colorCell.
+ * @customfunction
+ * @OnlyCurrentDoc
+ */
+function sumCellsByColor(dataRange, colorCell) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var data = sheet.getRange(dataRange).getValues();
+  var backgrounds = sheet.getRange(dataRange).getBackgrounds();
+  var color = sheet.getRange(colorCell).getBackground();
+  
+  var sum = 0;
+  for (var i = 0; i < backgrounds.length; i++) {
+    for (var j = 0; j < backgrounds[i].length; j++) {
+      if (backgrounds[i][j] == color) {
+        sum += data[i][j];
+      }
+    }
+  }
+  
+  return sum;
+}
